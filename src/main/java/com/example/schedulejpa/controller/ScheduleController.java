@@ -59,7 +59,7 @@ public class ScheduleController {
 
     // todo 일정 삭제
     @DeleteMapping("/{id}")
-    public ResponseEntity<void> deleteSchedule(@PathVariable Long id, @RequestBody ScheduleRequestDto dto) {
+    public ResponseEntity<Void> deleteSchedule(@PathVariable Long id, @RequestBody ScheduleRequestDto dto) {
         return new ResponseEntity<>(null, HttpStatus.OK);
     }
 }

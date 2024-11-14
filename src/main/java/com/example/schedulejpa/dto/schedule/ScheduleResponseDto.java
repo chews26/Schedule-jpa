@@ -1,5 +1,6 @@
 package com.example.schedulejpa.dto.schedule;
 
+import com.example.schedulejpa.entity.Schedule;
 import lombok.Getter;
 
 import java.time.LocalDateTime;
@@ -26,5 +27,17 @@ public class ScheduleResponseDto {
         this.contents = contents;
         this.startDate = startDate;
         this.endDate = endDate;
+    }
+
+
+    public static ScheduleResponseDto toDto(Schedule schedule) {
+        return new ScheduleResponseDto(
+                schedule.getUser().getName(),
+                schedule.getScheduleId(),
+                schedule.getTitle(),
+                schedule.getContents(),
+                schedule.getStartDate(),
+                schedule.getEndDate()
+        );
     }
 }
