@@ -1,19 +1,18 @@
 package com.example.schedulejpa.dto.user.signup;
 
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.NotEmpty;
 import lombok.Getter;
 
 @Getter
 public class SignUpRequestDto {
 
-    @NotNull
+    @NotEmpty(message = "이름은 필수 입력 항목입니다.")
     private final String name;
 
-    @Email
+    @NotEmpty(message = "이메일(아이디)은 필수 입력 항목입니다.")
     private final String email;
 
-    @NotNull
+    @NotEmpty(message = "비밀번호는 필수 입력 항목입니다.")
     private final String password;
 
     public SignUpRequestDto(String name, String email, String password) {

@@ -1,14 +1,12 @@
 package com.example.schedulejpa.controller;
 
 import com.example.schedulejpa.dto.user.login.LoginRequestDto;
-import com.example.schedulejpa.dto.user.login.LoginResponseDto;
 import com.example.schedulejpa.dto.user.signup.SignUpRequestDto;
 import com.example.schedulejpa.dto.user.signup.SignUpResponseDto;
 import com.example.schedulejpa.service.UserService;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -44,26 +42,7 @@ public class UserController {
             @RequestBody LoginRequestDto dto,
             HttpServletRequest request
     ) {
-        // 로그인 유저 조회
-        LoginResponseDto responseDto = userService.login(dto.getEmail(), dto.getPassword());
-
-        // 로그인 실패 예외처리
-        // 실패할 경우 login 재실행 (현 페이지)
-        if (responseDto.getEmail() == null) {
-            return "login";
-        }
-
-        // 로그인 성공 처리
-        // Session의 Default Value는 true이다.
-        // Session이 request에 존재하면 기존의 Session을 반환하고,
-        // Session이 request에 없을 경우에 새로 Session을 생성한다.
-        HttpSession session = request.getSession();
-
-        // 회원 정보 조회
-        LoginResponseDto loginResponseDto = userService.findById(userId);
-
-        // Schedule 페이지로 리다이렉트
-        return "redirect:/schedule";
+        return null;
     }
 
     // logout 기능

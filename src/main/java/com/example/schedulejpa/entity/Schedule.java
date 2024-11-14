@@ -8,9 +8,11 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import lombok.Getter;
 
 import java.time.LocalDateTime;
 
+@Getter
 @Entity
 @Table(name = "schedule")
 public class Schedule extends BaseEntity {
@@ -40,4 +42,17 @@ public class Schedule extends BaseEntity {
     @JoinColumn(name = "user_id")
     private User user;
 
+    public Schedule() {
+    }
+
+    public Schedule(String title, String contents, LocalDateTime startDate, LocalDateTime endDate) {
+        this.title = title;
+        this.contents = contents;
+        this.startDate = startDate;
+        this.endDate = endDate;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
 }

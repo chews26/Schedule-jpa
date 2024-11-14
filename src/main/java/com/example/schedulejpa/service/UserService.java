@@ -2,6 +2,7 @@ package com.example.schedulejpa.service;
 
 import com.example.schedulejpa.dto.user.login.LoginResponseDto;
 import com.example.schedulejpa.dto.user.signup.SignUpResponseDto;
+import com.example.schedulejpa.dto.user.user.UserResponseDto;
 import com.example.schedulejpa.entity.User;
 import com.example.schedulejpa.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -20,11 +21,22 @@ public class UserService {
         return new SignUpResponseDto(saveUser.getUserId(), saveUser.getName(), saveUser.getEmail());
     }
 
-    // 로그인 기능
-    public LoginResponseDto login(String name, String password) {
+    // todo 로그인 기능
+    // DTO에서 유효성 검증으로 수정
+    public LoginResponseDto login(String email, String password) {
+        User user = userRepository.findByEmail(email)
+                .orElseThrow(() -> new RuntimeException("이메일 또는 비밀번호가 잘못되었습니다."));
 
+        // 비밀번호가 일치하는지 확인
+        if (!user.getPassword().equals(password)) {
+            throw new RuntimeException("이메일 또는 비밀번호가 잘못되었습니다.");
+        }
+
+        return new LoginResponseDto(user.getEmail());
     }
 
-    // 회원 유무 검증
-    public L
+    // todo 회원 유무 검증
+    public UserResponseDto findByUserId(Long userId) {
+        return userRepository.findByUserId(userId);
+    }
 }
