@@ -5,7 +5,9 @@ import com.example.schedulejpa.dto.user.signup.SignUpResponseDto;
 import com.example.schedulejpa.entity.User;
 import com.example.schedulejpa.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 @Service
 @RequiredArgsConstructor
@@ -26,11 +28,11 @@ public class UserService {
 
         // 아이디가 존재하는지 확인
         User user = userRepository.findByEmail(email)
-                .orElseThrow(() -> new RuntimeException("이메일 또는 비밀번호가 잘못되었습니다."));
+                .orElseThrow(() ->  new ResponseStatusException(HttpStatus.NOT_FOUND, "이메일 또는 비밀번호가 잘못되었습니다."));
 
         // 비밀번호가 일치하는지 확인
         if (!user.getPassword().equals(password)) {
-            throw new RuntimeException("이메일 또는 비밀번호가 잘못되었습니다.");
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "이메일 또는 비밀번호가 잘못되었습니다.");
         }
 
         return new LoginResponseDto(user.getEmail(), user.getUserId());
