@@ -30,24 +30,19 @@ public class ScheduleController {
     // todo 일정 등록
     // todo login기능이랑 연동해서 입력자 반환 필요
     @PostMapping
-    public ResponseEntity<ScheduleResponseDto> save(@RequestBody ScheduleRequestDto requestdto, HttpSession session) {
+    public ResponseEntity<ScheduleResponseDto> save(@RequestBody ScheduleRequestDto requestDto, HttpSession session) {
 
         LoginResponseDto loginUser = (LoginResponseDto) session.getAttribute(Const.LOGIN_USER);
         if (loginUser == null) {
             return new ResponseEntity<>(HttpStatus.UNAUTHORIZED); // 로그인 상태가 아니면 401 반환
         }
 
-        ScheduleResponseDto scheduleResponseDto = scheduleService.save(
-                requestdto.getTitle(),
-                requestdto.getContents(),
-                requestdto.getStartDate(),
-                requestdto.getEndDate()
-        );
+        ScheduleResponseDto scheduleResponseDto = scheduleService.save(requestDto);
         return new ResponseEntity<>(scheduleResponseDto, HttpStatus.CREATED);
     }
 
     // todo 일정 전체 조회
-    @GetMapping
+    @GetMapping("/all")
     public ResponseEntity<List<ScheduleResponseDto>> findAll(HttpSession session) {
         LoginResponseDto loginUser = (LoginResponseDto) session.getAttribute(Const.LOGIN_USER);
         if (loginUser == null) {
@@ -83,11 +78,12 @@ public class ScheduleController {
 
     // todo 일정 삭제
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteSchedule(@PathVariable Long id, @RequestBody ScheduleRequestDto dto, HttpSession session) {
+    public ResponseEntity<Void> deleteSchedule(@PathVariable Long id, HttpSession session) {
         LoginResponseDto loginUser = (LoginResponseDto) session.getAttribute(Const.LOGIN_USER);
         if (loginUser == null) {
             return new ResponseEntity<>(HttpStatus.UNAUTHORIZED); // 로그인 상태가 아니면 401 반환
         }
+        scheduleService.deleteById(id);
         return new ResponseEntity<>(null, HttpStatus.OK);
     }
 }

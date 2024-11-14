@@ -12,7 +12,6 @@ import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -25,10 +24,7 @@ public class ScheduleService {
 
     // todo 일정 등록
     public ScheduleResponseDto save(
-            String title,
-            String contents,
-            LocalDateTime startTime,
-            LocalDateTime endTime
+            ScheduleRequestDto dto
     ) {
         LoginResponseDto loginUser = (LoginResponseDto) session.getAttribute(Const.LOGIN_USER);
         if (loginUser == null) {
@@ -39,7 +35,12 @@ public class ScheduleService {
         User findUser = userRepository.findById(loginUser.getUserId())
                 .orElseThrow(() -> new RuntimeException("유효하지 않은 사용자입니다."));
 
-        Schedule schedule = new Schedule(title, contents, startTime, endTime);
+        Schedule schedule = new Schedule(
+                dto.getTitle(),
+                dto.getContents(),
+                dto.getStartDate(),
+                dto.getEndDate()
+        );
         schedule.setUser(findUser); // 작성자 설정
         Schedule savedSchedule = scheduleRepository.save(schedule);
 
