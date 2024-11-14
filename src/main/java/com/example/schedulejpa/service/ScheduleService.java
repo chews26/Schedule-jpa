@@ -1,11 +1,14 @@
 package com.example.schedulejpa.service;
 
+import com.example.schedulejpa.common.Const;
 import com.example.schedulejpa.dto.schedule.ScheduleRequestDto;
 import com.example.schedulejpa.dto.schedule.ScheduleResponseDto;
+import com.example.schedulejpa.dto.user.login.LoginResponseDto;
 import com.example.schedulejpa.entity.Schedule;
 import com.example.schedulejpa.entity.User;
 import com.example.schedulejpa.repository.ScheduleRepository;
 import com.example.schedulejpa.repository.UserRepository;
+import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -18,15 +21,29 @@ public class ScheduleService {
 
     private final UserRepository userRepository;
     private final ScheduleRepository scheduleRepository;
+    private final HttpSession session;
 
     // todo 일정 등록
-    public ScheduleResponseDto save(String title, String contents, LocalDateTime startTime, LocalDateTime endTime) {
-        // todo 로그인 기능이랑 연동 필요
-        User findUser = userRepository.findByUserOrElseThrow(name);
+    public ScheduleResponseDto save(
+            String title,
+            String contents,
+            LocalDateTime startTime,
+            LocalDateTime endTime
+    ) {
+        LoginResponseDto loginUser = (LoginResponseDto) session.getAttribute(Const.LOGIN_USER);
+        if (loginUser == null) {
+            throw new RuntimeException("로그인이 필요합니다.");
+        }
+
+        // 로그인된 사용자의 User 엔티티 조회
+        User findUser = userRepository.findById(loginUser.getUserId())
+                .orElseThrow(() -> new RuntimeException("유효하지 않은 사용자입니다."));
+
         Schedule schedule = new Schedule(title, contents, startTime, endTime);
-        user.setUser(findUser);
-        userRepository.save(schedule);
-        return new ScheduleResponseDto(schedule.getScheduleId(),  schedule.getTitle(), schedule.getContents(), schedule.getStartDate(), schedule.getEndDate());
+        schedule.setUser(findUser); // 작성자 설정
+        Schedule savedSchedule = scheduleRepository.save(schedule);
+
+        return ScheduleResponseDto.toDto(savedSchedule);
     }
 
     // todo 일정 전체 조회

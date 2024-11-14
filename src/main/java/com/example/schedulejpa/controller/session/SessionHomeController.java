@@ -1,4 +1,4 @@
-package com.example.schedulejpa.controller;
+package com.example.schedulejpa.controller.session;
 
 import com.example.schedulejpa.common.Const;
 import com.example.schedulejpa.dto.user.login.LoginRequestDto;
@@ -12,13 +12,12 @@ import org.springframework.web.bind.annotation.SessionAttribute;
 
 @Controller
 @RequiredArgsConstructor
-public class SessionUserController {
-
+public class SessionHomeController {
+    
     private final UserService userService;
 
-    // todo 로그인 세션 유지
-    @GetMapping("/login")
-    public String login(
+    @GetMapping({"/","/schedule"})
+    public String home(
             @Valid
             @SessionAttribute(name = Const.LOGIN_USER, required = false) LoginRequestDto loginUser,
             Model model
@@ -32,4 +31,6 @@ public class SessionUserController {
 
         return "schedules";
     }
+    
+    
 }

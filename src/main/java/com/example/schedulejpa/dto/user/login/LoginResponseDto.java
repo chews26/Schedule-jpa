@@ -9,7 +9,10 @@ public class LoginResponseDto {
     @Email
     private final String email;
 
-    public LoginResponseDto(String email) {
+    private final Long userId;
+
+    public LoginResponseDto(String email, Long userId) {
         this.email = email;
+        this.userId = userId;
     }
 }
