@@ -6,7 +6,9 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import lombok.Getter;
 
+@Getter
 @Entity
 @Table(name = "user")
 public class User extends BaseEntity {
@@ -28,4 +30,11 @@ public class User extends BaseEntity {
     @Column(nullable = false)
     private String password;
 
+    // 유저 생성자
+    // 유저 ID는 제외
+    public User(String name, String email, String password) {
+        this.name = name;
+        this.email = email;
+        this.password = password;
+    }
 }
