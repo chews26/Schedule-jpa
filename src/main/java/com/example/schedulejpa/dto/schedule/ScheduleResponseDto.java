@@ -29,7 +29,6 @@ public class ScheduleResponseDto {
         this.endDate = endDate;
     }
 
-
     public static ScheduleResponseDto toDto(Schedule schedule) {
         return new ScheduleResponseDto(
                 schedule.getUser().getName(),

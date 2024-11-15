@@ -22,13 +22,11 @@ public class UserService {
         return new SignUpResponseDto(saveUser.getUserId(), saveUser.getName(), saveUser.getEmail());
     }
 
-    // todo 로그인 기능
-    // DTO에서 유효성 검증으로 수정
+    // 로그인 기능
     public LoginResponseDto login(String email, String password) {
 
         // 아이디가 존재하는지 확인
-        User user = userRepository.findByEmail(email)
-                .orElseThrow(() ->  new ResponseStatusException(HttpStatus.NOT_FOUND, "이메일 또는 비밀번호가 잘못되었습니다."));
+        User user = userRepository.findByEmailOrElseThrow(email);
 
         // 비밀번호가 일치하는지 확인
         if (!user.getPassword().equals(password)) {

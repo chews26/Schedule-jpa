@@ -1,6 +1,6 @@
 package com.example.schedulejpa.dto.schedule;
 
-import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 
@@ -9,10 +9,10 @@ import java.time.LocalDateTime;
 @Getter
 public class ScheduleRequestDto {
 
-    @NotEmpty(message = "일정 제목은 필수 입력 항목입니다.")
+    @NotBlank(message = "일정 제목은 필수 입력 항목입니다.")
     private final String title;
 
-    @NotEmpty(message = "일정 내용은 필수 입력 항목입니다.")
+    @NotBlank(message = "일정 내용은 필수 입력 항목입니다.")
     private final String contents;
 
     @NotNull(message = "시작일은 필수 입력 항목입니다.")

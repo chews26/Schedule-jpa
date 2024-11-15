@@ -22,6 +22,7 @@ public class SessionHomeController {
             @SessionAttribute(name = Const.LOGIN_USER, required = false) LoginRequestDto loginUser,
             Model model
     ) {
+
         // session에 loginUser가 없으면 Login 페이지로 이동
         if (loginUser == null) {
             return "login";
@@ -31,6 +32,4 @@ public class SessionHomeController {
 
         return "schedules";
     }
-    
-    
 }

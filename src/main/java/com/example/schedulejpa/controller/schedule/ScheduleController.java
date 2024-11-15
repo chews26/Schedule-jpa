@@ -4,6 +4,7 @@ import com.example.schedulejpa.dto.schedule.ScheduleRequestDto;
 import com.example.schedulejpa.dto.schedule.ScheduleResponseDto;
 import com.example.schedulejpa.service.ScheduleService;
 import jakarta.servlet.http.HttpSession;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -25,35 +26,34 @@ public class ScheduleController {
 
     private final ScheduleService scheduleService;
 
-    // todo 일정 등록
-    // todo login기능이랑 연동해서 입력자 반환 필요
+    // 일정 등록
     @PostMapping
-    public ResponseEntity<ScheduleResponseDto> save(@RequestBody ScheduleRequestDto requestDto, HttpSession session) {
+    public ResponseEntity<ScheduleResponseDto> save(@Valid @RequestBody ScheduleRequestDto requestDto, HttpSession session) {
         ScheduleResponseDto scheduleResponseDto = scheduleService.save(requestDto);
         return new ResponseEntity<>(scheduleResponseDto, HttpStatus.CREATED);
     }
 
-    // todo 일정 전체 조회
+    // 일정 전체 조회
     @GetMapping("/all")
     public ResponseEntity<List<ScheduleResponseDto>> findAll(HttpSession session) {
         List<ScheduleResponseDto> scheduleResponseDtoList = scheduleService.findAll();
         return new ResponseEntity<>(scheduleResponseDtoList, HttpStatus.OK);
     }
 
-    // todo 일정 세부 조회
+    // 일정 세부 조회
     @GetMapping("/{id}")
     public ResponseEntity<ScheduleResponseDto> findById(@PathVariable Long id, HttpSession session) {
         ScheduleResponseDto scheduleResponseDto = scheduleService.findById(id);
         return new ResponseEntity<>(scheduleResponseDto, HttpStatus.OK);
     }
 
-    // todo 일정 수정
+    // 일정 수정
     @PutMapping("/{id}")
-    public ResponseEntity<ScheduleResponseDto> updateSchedule(@PathVariable Long id, @RequestBody ScheduleRequestDto dto, HttpSession session) {
+    public ResponseEntity<ScheduleResponseDto> updateSchedule(@PathVariable Long id,@Valid @RequestBody ScheduleRequestDto dto, HttpSession session) {
         return new ResponseEntity<>(scheduleService.updateSchedule(id, dto), HttpStatus.OK);
     }
 
-    // todo 일정 삭제
+    // 일정 삭제
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteSchedule(@PathVariable Long id, HttpSession session) {
         scheduleService.deleteById(id);
