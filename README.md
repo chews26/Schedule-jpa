@@ -14,3 +14,66 @@
 
 ## SQL 쿼리 작성 (schedule.sql)
 ### Create
+```sql
+ create table schedule
+ (
+     created_date  datetime(6)  null,
+     end_date      datetime(6)  not null,
+     modified_date datetime(6)  null,
+     schedule_id   bigint       auto_increment,
+     start_date    datetime(6)  not null,
+     user_id       bigint       null,
+     contents      longtext     not null,
+     title         varchar(255) not null,
+     primary key (schedule_id),
+     FOREIGN KEY (user_id) REFERENCES users(user_id)
+ );
+
+create table user
+(
+    created_date  datetime(6)  null,
+    modified_date datetime(6)  null,
+    user_id       bigint       auto_increment,
+    email         varchar(255) not null,
+    name          varchar(255) not null,
+    password      varchar(255) not null,
+    primary key (user_id),
+    unique (email)
+);
+```
+### Insert
+```sql
+INSERT INTO schedule
+(
+title,
+startDateTime,
+endDateTime,
+contents
+)
+VALUE(
+'공부하기'
+'2024-10-30 16:00:00'
+'2024-10-31 17:00:00'
+'zep에 접속하기'
+)
+;
+```
+### Select
+```sql
+SELECT *
+FROM schedule;
+```
+### update
+```sql
+UPDATE schedule
+SET title = '놀기',
+start_datetime = '2024-11-31 09:00:00',
+end_datetime = '2024-11-31 11:00:00',
+description = '게임하기'
+WHERE id=1;
+```
+### Delete
+```sql
+DELETE FROM schedule
+WHERE id=1;
+```
