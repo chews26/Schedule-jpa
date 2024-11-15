@@ -53,8 +53,4 @@ public class Schedule extends BaseEntity {
         this.startDate = startDate;
         this.endDate = endDate;
     }
-
-    public void setUser(User user) {
-        this.user = user;
-    }
 }

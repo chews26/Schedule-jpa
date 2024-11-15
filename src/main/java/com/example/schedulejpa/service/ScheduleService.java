@@ -22,7 +22,7 @@ public class ScheduleService {
     private final ScheduleRepository scheduleRepository;
     private final HttpSession session;
 
-    // todo 일정 등록
+    // 일정 등록
     public ScheduleResponseDto save(
             ScheduleRequestDto dto
     ) {
@@ -47,7 +47,7 @@ public class ScheduleService {
         return ScheduleResponseDto.toDto(savedSchedule);
     }
 
-    // todo 일정 전체 조회
+    // 일정 전체 조회
     public List<ScheduleResponseDto> findAll() {
         return scheduleRepository.findAll()
                 .stream()
@@ -55,7 +55,7 @@ public class ScheduleService {
                 .toList();
     }
 
-    // todo 일정 세부 조회
+    // 일정 세부 조회
     public ScheduleResponseDto findById(Long scheduleId) {
         Schedule findSchedule = scheduleRepository.findByIdOrElseThrow(scheduleId);
         User writer = findSchedule.getUser();
@@ -69,7 +69,7 @@ public class ScheduleService {
         );
     }
 
-    // todo 일정 수정
+    // 일정 수정
     public ScheduleResponseDto updateSchedule(Long scheduleId, ScheduleRequestDto dto) {
         Schedule findSchedule = scheduleRepository.findByIdOrElseThrow(scheduleId);
         User writer = findSchedule.getUser();
@@ -88,7 +88,7 @@ public class ScheduleService {
                 findSchedule.getEndDate());
     }
 
-    // todo 일정 삭제
+    // 일정 삭제
     public void deleteById(Long scheduleId) {
         Schedule findSchedule = scheduleRepository.findByIdOrElseThrow(scheduleId);
         scheduleRepository.delete(findSchedule);

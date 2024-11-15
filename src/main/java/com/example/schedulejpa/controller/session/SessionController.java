@@ -15,7 +15,7 @@ public class SessionController {
         HttpSession session = request.getSession(false);
 
         if (session == null) {
-            return "세션이 없습니다.";
+            return "세션이 없습니다. 로그인해주세요.";
         }
 
         // session 정보 조회
@@ -25,6 +25,6 @@ public class SessionController {
         log.info("session.getLastAccessedTime()={}", session.getLastAccessedTime());
         log.info("session.isNew()={}", session.isNew());
 
-        return "세션 조회 성공!";
+        return "세션이 정상적으로 조회되었습니다.";
     }
 }

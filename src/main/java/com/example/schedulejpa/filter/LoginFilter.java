@@ -1,5 +1,6 @@
 package com.example.schedulejpa.filter;
 
+import com.example.schedulejpa.common.Const;
 import jakarta.servlet.Filter;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -15,7 +16,7 @@ import java.io.IOException;
 
 @Slf4j
 public class LoginFilter implements Filter {
-    private static final String[] WHITE_LIST = {"/", "/users" , "/users/login", "/users/logout"};
+    private static final String[] WHITE_LIST = {"/session", "/", "/users/*"};
 
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain filterChain) throws IOException, ServletException {
@@ -31,10 +32,9 @@ public class LoginFilter implements Filter {
         if(!isWhiteList(requestURI)) {
             HttpSession session = httpRequest.getSession(false);
 
-            if (session == null || session.getAttribute("sessionKey") == null) {
-                throw new RuntimeException("로그인해주세요");
+            if (session == null || session.getAttribute(Const.LOGIN_USER) == null) {
+                throw new RuntimeException("로그인 해주세요");
             }
-
             // 로그인 성공 로직
             log.info("로그인에 성공했습니다.");
         }
@@ -44,7 +44,6 @@ public class LoginFilter implements Filter {
         // 다음 필터가 없으면 Servlet -> Controller, 다음필터가 있으면 다음 Filter를 호출한다.
         filterChain.doFilter(request, response);
     }
-
     private boolean isWhiteList(String requestURI) {
         return PatternMatchUtils.simpleMatch(WHITE_LIST, requestURI);
     }
