@@ -56,17 +56,24 @@ public class ScheduleService {
     }
 
     // 일정 세부 조회
+//    public ScheduleResponseDto findById(Long scheduleId) {
+//        Schedule findSchedule = scheduleRepository.findByIdOrElseThrow(scheduleId);
+//        User writer = findSchedule.getUser();
+//        return new ScheduleResponseDto(
+//                writer.getName(),
+//                findSchedule.getScheduleId(),
+//                findSchedule.getTitle(),
+//                findSchedule.getContents(),
+//                findSchedule.getStartDate(),
+//                findSchedule.getEndDate()
+//        );
+//    }
+
+    // 일정 세부 조회 수정
     public ScheduleResponseDto findById(Long scheduleId) {
-        Schedule findSchedule = scheduleRepository.findByIdOrElseThrow(scheduleId);
-        User writer = findSchedule.getUser();
-        return new ScheduleResponseDto(
-                writer.getName(),
-                findSchedule.getScheduleId(),
-                findSchedule.getTitle(),
-                findSchedule.getContents(),
-                findSchedule.getStartDate(),
-                findSchedule.getEndDate()
-        );
+        Schedule schedule = scheduleRepository.findByIdOrElseThrow(scheduleId);
+        String writerName = schedule.getUser().getName();
+        return Schedule.toDto(writerName, schedule);
     }
 
     // 일정 수정

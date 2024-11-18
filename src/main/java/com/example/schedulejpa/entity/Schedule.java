@@ -1,5 +1,6 @@
 package com.example.schedulejpa.entity;
 
+import com.example.schedulejpa.dto.schedule.ScheduleResponseDto;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -52,5 +53,16 @@ public class Schedule extends BaseEntity {
         this.contents = contents;
         this.startDate = startDate;
         this.endDate = endDate;
+    }
+
+    public static ScheduleResponseDto toDto(String name, Schedule schedule) {
+        return new ScheduleResponseDto(
+                name,
+                schedule.getScheduleId(),
+                schedule.getTitle(),
+                schedule.getContents(),
+                schedule.getStartDate(),
+                schedule.getEndDate()
+        );
     }
 }
